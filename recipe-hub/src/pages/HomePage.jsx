@@ -270,7 +270,7 @@ export default function HomePage() {
                 ) : (
                   <button onClick={() => setKosherType('')} className="flex items-center gap-1 text-sm text-stone-700 font-medium">
                     <span className="material-symbols-outlined text-base">chevron_right</span>
-                    עיקרית
+                    {activeCategory === 'עיקרית' ? 'עיקרית' : activeCategory}
                   </button>
                 )}
                 <h2 className="text-lg font-bold text-gray-800">{activeGroup || activeKosherType}</h2>
