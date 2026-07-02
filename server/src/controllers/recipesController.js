@@ -68,7 +68,7 @@ export async function getRecipes(req, res) {
     query = query.eq('kosher_type', kosher_type)
   }
   if (search) {
-    query = query.or(`title.ilike.%${search}%,ingredients.ilike.%${search}%`)
+    query = query.ilike('title', `%${search}%`)
   }
   if (source) {
     query = query.eq('source', source)
