@@ -6,6 +6,11 @@ import RecipeCard from '../components/RecipeCard'
 import { RecipeGridSkeleton } from '../components/LoadingSkeleton'
 
 const CATEGORIES = ['הכל', 'עיקרית', 'מנות פתיחה', 'קינוחים', 'סלטים']
+
+const SUB_CATEGORY_IMAGE_OVERRIDES = {
+  'חזה עוף': 'https://images.unsplash.com/photo-1562802378-063ec186a863?w=600',
+  'שניצל':   'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600',
+}
 const BLOGS = ['10 דקות', 'מאקו', 'חן במטבח']
 
 const SUB_GROUPS = {
@@ -317,7 +322,7 @@ export default function HomePage() {
                   className="relative rounded-2xl overflow-hidden cursor-pointer h-44 active:scale-95 transition-transform shadow-sm"
                 >
                   <img
-                    src={sub.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'}
+                    src={SUB_CATEGORY_IMAGE_OVERRIDES[sub.name] || sub.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'}
                     alt={sub.name}
                     className="w-full h-full object-cover"
                     onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400' }}
@@ -360,7 +365,7 @@ export default function HomePage() {
                   className="relative rounded-2xl overflow-hidden cursor-pointer h-44 active:scale-95 transition-transform shadow-sm"
                 >
                   <img
-                    src={sub.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'}
+                    src={SUB_CATEGORY_IMAGE_OVERRIDES[sub.name] || sub.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'}
                     alt={sub.name}
                     className="w-full h-full object-cover"
                     onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400' }}
@@ -397,7 +402,7 @@ export default function HomePage() {
                   className="relative rounded-2xl overflow-hidden cursor-pointer h-44 active:scale-95 transition-transform shadow-sm"
                 >
                   <img
-                    src={sub.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'}
+                    src={SUB_CATEGORY_IMAGE_OVERRIDES[sub.name] || sub.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'}
                     alt={sub.name}
                     className="w-full h-full object-cover"
                     onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400' }}
