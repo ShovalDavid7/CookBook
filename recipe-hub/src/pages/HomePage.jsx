@@ -58,13 +58,14 @@ export default function HomePage() {
   const { recipes, isLoading, activeCategory, activeSubCategory, activeKosherType, activeGroup, activeGroupSubs, activeSubGroup, activeSubGroupSubs, activeSource, subCategories, setCategory, setSubCategory, setKosherType, setGroup, setSubGroup, setSource, setSearch, fetchRecipes, restoreNav } = useRecipeStore()
   const [searchInput, setSearchInput] = useState('')
   const isMounted = useRef(false)
+  const isRestoring = useRef(false)
 
   useEffect(() => {
     window.history.scrollRestoration = 'manual'
 
-    // If we landed here via browser back/forward with saved state, restore it
     const saved = window.history.state?.cook
     if (saved) {
+      isRestoring.current = true
       restoreNav(saved.cat || 'הכל', saved.k || '', saved.g || '', saved.gs || [], saved.sub || '', saved.sg || '', saved.sgs || [])
     } else {
       window.history.replaceState({ cook: { cat: activeCategory, k: activeKosherType, g: activeGroup, gs: activeGroupSubs, sub: activeSubCategory, sg: activeSubGroup, sgs: activeSubGroupSubs } }, '')
@@ -74,6 +75,7 @@ export default function HomePage() {
     const onPop = (e) => {
       if (e.state?.cook) {
         const { cat, k, g, gs, sub, sg, sgs } = e.state.cook
+        isRestoring.current = true
         restoreNav(cat || 'הכל', k || '', g || '', gs || [], sub || '', sg || '', sgs || [])
         window.scrollTo(0, 0)
       }
@@ -85,9 +87,10 @@ export default function HomePage() {
     }
   }, [])
 
-  // Push history entry on each navigation change (skip first mount)
+  // Push history entry on each navigation change (skip first mount and popstate restores)
   useEffect(() => {
     if (!isMounted.current) { isMounted.current = true; return }
+    if (isRestoring.current) { isRestoring.current = false; return }
     window.history.pushState({ cook: { cat: activeCategory, k: activeKosherType, g: activeGroup, gs: activeGroupSubs, sub: activeSubCategory, sg: activeSubGroup, sgs: activeSubGroupSubs } }, '')
     window.scrollTo(0, 0)
   }, [activeCategory, activeKosherType, activeGroup, activeSubCategory, activeSubGroup])
