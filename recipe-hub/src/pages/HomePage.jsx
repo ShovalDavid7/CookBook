@@ -8,7 +8,7 @@ import { RecipeGridSkeleton } from '../components/LoadingSkeleton'
 const CATEGORIES = ['הכל', 'עיקרית', 'מנות פתיחה', 'קינוחים', 'סלטים']
 
 const SUB_CATEGORY_IMAGE_OVERRIDES = {
-  'חזה עוף': 'https://images.unsplash.com/photo-1562802378-063ec186a863?w=600',
+  'חזה עוף': 'https://d3o5sihylz93ps.cloudfront.net/wp-content/uploads/2026/04/23113947/IMG_9215-355x236.jpg',
   'שניצל':   'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600',
 }
 const BLOGS = ['10 דקות', 'מאקו', 'חן במטבח']
