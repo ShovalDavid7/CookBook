@@ -9,7 +9,7 @@ const CATEGORIES = ['הכל', 'עיקרית', 'מנות פתיחה', 'קינוח
 
 const SUB_CATEGORY_IMAGE_OVERRIDES = {
   'חזה עוף': 'https://d3o5sihylz93ps.cloudfront.net/wp-content/uploads/2026/04/23113947/IMG_9215-355x236.jpg',
-  'שניצל':   'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600',
+  'שניצל':   'https://d3o5sihylz93ps.cloudfront.net/wp-content/uploads/2026/03/10160430/WhatsApp-Image-2026-03-08-at-12.14.32-1-355x236.jpeg',
   'שווארמה': 'https://www.nikib.co.il/wp-content/uploads/%D7%A9%D7%95%D7%95%D7%90%D7%A8%D7%9E%D7%94.jpg?v=1618217754',
 }
 const BLOGS = ['10 דקות', 'מאקו', 'חן במטבח']
