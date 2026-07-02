@@ -1,7 +1,7 @@
 import { supabase } from '../supabase.js'
 
 const SUB_CATEGORY_IMAGES = {
-  'חזה עוף':    'https://www.nikib.co.il/wp-content/uploads/kk-1.jpg?v=1618216667',
+  'חזה עוף':    'https://images.unsplash.com/photo-1562802378-063ec186a863?w=600',
   'פרגיות':     'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600',
   'כנפיים':     'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=600',
   'שניצל':      'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600',
