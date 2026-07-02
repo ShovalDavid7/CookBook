@@ -8,6 +8,7 @@ import bookmarksRouter from './routes/bookmarks.js'
 import uploadRouter from './routes/upload.js'
 import importRouter from './routes/import.js'
 import crawlRouter from './routes/crawl.js'
+import interactionsRouter from './routes/interactions.js'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -22,6 +23,7 @@ app.use('/api/bookmarks', bookmarksRouter)
 app.use('/api/upload', uploadRouter)
 app.use('/api/import', importRouter)
 app.use('/api/crawl', crawlRouter)
+app.use('/api/interactions', interactionsRouter)
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok' }))
 

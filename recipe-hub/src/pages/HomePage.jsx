@@ -12,6 +12,7 @@ const SUB_CATEGORY_IMAGE_OVERRIDES = {
   'שניצל':   'https://d3o5sihylz93ps.cloudfront.net/wp-content/uploads/2026/06/23130147/b2ef4ccc-abbf-4d68-a0a8-65bc73a214f0-355x236.jpg',
   'שווארמה': 'https://www.nikib.co.il/wp-content/uploads/%D7%A9%D7%95%D7%95%D7%90%D7%A8%D7%9E%D7%94.jpg?v=1618217754',
   'אסאדו':   'https://heninthekitchen.com/wp-content/uploads/2024/04/DSC000581-3small.jpg',
+  'טונה':    'https://d3o5sihylz93ps.cloudfront.net/wp-content/uploads/2026/05/03110334/WhatsApp-Image-2026-04-30-at-16.58.27-1-355x236.jpeg',
 }
 const BLOGS = ['10 דקות', 'מאקו', 'חן במטבח']
 
