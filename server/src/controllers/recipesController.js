@@ -1,7 +1,7 @@
 import { supabase } from '../supabase.js'
 
 const SUB_CATEGORY_IMAGES = {
-  'חזה עוף':    'https://www.10dakot.co.il/wp-content/uploads/2021/12/%E2%80%8F%E2%80%8FDSC_0008-%D7%A2%D7%95%D7%AA%D7%A7.jpg',
+  'חזה עוף':    'https://www.nikib.co.il/wp-content/uploads/kk-1.jpg?v=1618216667',
   'פרגיות':     'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600',
   'כנפיים':     'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=600',
   'שניצל':      'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600',
