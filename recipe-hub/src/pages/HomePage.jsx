@@ -10,6 +10,7 @@ const CATEGORIES = ['הכל', 'עיקרית', 'מנות פתיחה', 'קינוח
 const SUB_CATEGORY_IMAGE_OVERRIDES = {
   'חזה עוף': 'https://d3o5sihylz93ps.cloudfront.net/wp-content/uploads/2026/04/23113947/IMG_9215-355x236.jpg',
   'שניצל':   'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600',
+  'שווארמה': 'https://heninthekitchen.com/wp-content/uploads/2020/06/IMG_5157small.jpg',
 }
 const BLOGS = ['10 דקות', 'מאקו', 'חן במטבח']
 
