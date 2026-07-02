@@ -1,7 +1,7 @@
 import { supabase } from '../supabase.js'
 
 const SUB_CATEGORY_IMAGES = {
-  'חזה עוף':    'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=600',
+  'חזה עוף':    'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=600',
   'פרגיות':     'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600',
   'כנפיים':     'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=600',
   'שניצל':      'https://images.unsplash.com/photo-1585325701165-b1b9ba44adbb?w=600',

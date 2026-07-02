@@ -8,6 +8,23 @@ import { RecipeGridSkeleton } from '../components/LoadingSkeleton'
 const CATEGORIES = ['הכל', 'עיקרית', 'מנות פתיחה', 'קינוחים', 'סלטים']
 const BLOGS = ['10 דקות', 'מאקו', 'חן במטבח']
 
+const SUB_GROUPS = {
+  'קינוחים': [
+    {
+      name: 'עוגות',
+      image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600',
+      desc: 'עוגת גבינה, גזר, שוקולד ועוד',
+      subs: ['עוגת גבינה', 'עוגת גזר', 'עוגת תפוזים', 'עוגות שוקולד', 'בראוניז', 'טירמיסו', 'עוגות ביסקוויטים', 'עוגת בננות', 'עוגת קוקוס', 'עוגת פרפה', 'עוגות מוס', 'עוגות נוספות'],
+    },
+    {
+      name: 'עוגיות',
+      image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600',
+      desc: 'שוקולד ציפס, חמאה, קוקוס ועוד',
+      subs: ['עוגיות שוקולד', 'עוגיות שוקולד ציפס', 'עוגיות חמאה', 'עוגיות קוקוס', 'עוגיות תמרים', 'עוגיות שקדים ואגוזים', 'מגולגלות', 'אוזני המן', 'עוגיות נוספות'],
+    },
+  ],
+}
+
 const KOSHER_GROUPS = {
   'בשרי': [
     { name: 'עוף', image: 'https://images.unsplash.com/photo-1574672280600-4accfa5b6f98?w=600', desc: 'פרגיות, שניצל, כנפיים ועוד', subs: ['פרגיות', 'שניצל', 'כנפיים', 'חזה עוף', 'שוקי עוף', 'עוף שלם', 'מרק עוף', 'שווארמה', 'תבשיל עוף', 'צלי עוף', 'קציצות עוף'] },
@@ -15,7 +32,7 @@ const KOSHER_GROUPS = {
   ],
   'חלבי': [
     { name: 'מנות', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600', desc: 'פיצה, פסטה, קיש ועוד', subs: ['מנות חלביות', 'פסטה', 'פיצה', 'לזניה', 'ריזוטו', 'קיש', 'פשטידה', 'אורז', 'תפוחי אדמה'] },
-    { name: 'מנות פתיחה', image: 'https://images.unsplash.com/photo-1541014741259-de529411b96a?w=600', desc: 'שקשוקה, ביצים, גבינות ועוד', subs: ['מנות פתיחה', 'מנות ראשונות', 'שקשוקה', 'ביצים'] },
+    { name: 'מנות פתיחה', image: 'https://images.unsplash.com/photo-1590412200988-a436970781fa?w=600', desc: 'שקשוקה, ביצים, גבינות ועוד', subs: ['מנות פתיחה', 'מנות ראשונות', 'שקשוקה', 'ביצים'] },
     { name: 'מאפים', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600', desc: 'בורקס, לחמניות גבינה ועוד', subs: ['בורקס', 'מאפים', 'לחמניות', 'בייגל', "פוקאצ'ה", 'לחמים', 'פיתה'] },
   ],
 }
@@ -30,7 +47,7 @@ const KOSHER_TYPES = [
 export default function HomePage() {
   const navigate = useNavigate()
   const { user, profile } = useAuthStore()
-  const { recipes, isLoading, activeCategory, activeSubCategory, activeKosherType, activeGroup, activeGroupSubs, activeSource, subCategories, setCategory, setSubCategory, setKosherType, setGroup, setSource, setSearch, fetchRecipes, restoreNav } = useRecipeStore()
+  const { recipes, isLoading, activeCategory, activeSubCategory, activeKosherType, activeGroup, activeGroupSubs, activeSubGroup, activeSubGroupSubs, activeSource, subCategories, setCategory, setSubCategory, setKosherType, setGroup, setSubGroup, setSource, setSearch, fetchRecipes, restoreNav } = useRecipeStore()
   const [searchInput, setSearchInput] = useState('')
   const isMounted = useRef(false)
 
@@ -40,16 +57,16 @@ export default function HomePage() {
     // If we landed here via browser back/forward with saved state, restore it
     const saved = window.history.state?.cook
     if (saved) {
-      restoreNav(saved.cat || 'הכל', saved.k || '', saved.g || '', saved.gs || [], saved.sub || '')
+      restoreNav(saved.cat || 'הכל', saved.k || '', saved.g || '', saved.gs || [], saved.sub || '', saved.sg || '', saved.sgs || [])
     } else {
-      window.history.replaceState({ cook: { cat: activeCategory, k: activeKosherType, g: activeGroup, gs: activeGroupSubs, sub: activeSubCategory } }, '')
+      window.history.replaceState({ cook: { cat: activeCategory, k: activeKosherType, g: activeGroup, gs: activeGroupSubs, sub: activeSubCategory, sg: activeSubGroup, sgs: activeSubGroupSubs } }, '')
       fetchRecipes()
     }
 
     const onPop = (e) => {
       if (e.state?.cook) {
-        const { cat, k, g, gs, sub } = e.state.cook
-        restoreNav(cat || 'הכל', k || '', g || '', gs || [], sub || '')
+        const { cat, k, g, gs, sub, sg, sgs } = e.state.cook
+        restoreNav(cat || 'הכל', k || '', g || '', gs || [], sub || '', sg || '', sgs || [])
         window.scrollTo(0, 0)
       }
     }
@@ -63,9 +80,9 @@ export default function HomePage() {
   // Push history entry on each navigation change (skip first mount)
   useEffect(() => {
     if (!isMounted.current) { isMounted.current = true; return }
-    window.history.pushState({ cook: { cat: activeCategory, k: activeKosherType, g: activeGroup, gs: activeGroupSubs, sub: activeSubCategory } }, '')
+    window.history.pushState({ cook: { cat: activeCategory, k: activeKosherType, g: activeGroup, gs: activeGroupSubs, sub: activeSubCategory, sg: activeSubGroup, sgs: activeSubGroupSubs } }, '')
     window.scrollTo(0, 0)
-  }, [activeCategory, activeKosherType, activeGroup, activeSubCategory])
+  }, [activeCategory, activeKosherType, activeGroup, activeSubCategory, activeSubGroup])
 
   const handleSearchSubmit = (e) => {
     e.preventDefault()
@@ -77,6 +94,12 @@ export default function HomePage() {
   const groupFilteredSubs = activeGroupSubs.length
     ? safeSubs.filter(s => activeGroupSubs.includes(s.name))
     : safeSubs
+
+  const categorySubGroups = SUB_GROUPS[activeCategory] || []
+  const subGroupSubNamesSet = new Set(categorySubGroups.flatMap(g => g.subs))
+  const displaySubs = safeSubs.filter(s => !subGroupSubNamesSet.has(s.name))
+  const visibleSubGroups = categorySubGroups.filter(g => g.subs.some(s => safeSubs.find(sc => sc.name === s)))
+  const activeSubGroupItems = activeSubGroup ? safeSubs.filter(s => activeSubGroupSubs.includes(s.name)) : []
 
 
   return (
@@ -309,22 +332,28 @@ export default function HomePage() {
             </div>
           </>
 
-        ) : activeCategory !== 'הכל' && activeSubCategory === '' && subCategories.length > 0 && activeKosherType === '' ? (
-          /* ── Dish-type cards for non-עיקרית categories ── */
+        ) : activeCategory !== 'הכל' && activeSubCategory === '' && activeKosherType === '' && activeSubGroup !== '' ? (
+          /* ── Sub-group cards (e.g. cake types under עוגות) ── */
           <>
             <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-gray-400">{subCategories.length} סוגי מנות</span>
-              <h2 className="text-lg font-bold text-gray-800">{activeCategory}</h2>
+              <span className="text-sm text-gray-400">{activeSubGroupItems.length} סוגים</span>
+              <div className="flex items-center gap-2">
+                <button onClick={() => setSubGroup('', [])} className="flex items-center gap-1 text-sm text-stone-700 font-medium">
+                  <span className="material-symbols-outlined text-base">chevron_right</span>
+                  {activeCategory}
+                </button>
+                <h2 className="text-lg font-bold text-gray-800">{activeSubGroup}</h2>
+              </div>
+            </div>
+            <div
+              onClick={() => setSubCategory('__all__')}
+              className="flex items-center justify-center gap-2 rounded-2xl cursor-pointer h-14 mb-5 active:scale-95 transition-transform bg-gradient-to-r from-[#8B7355] to-[#C4A882] shadow-sm"
+            >
+              <span className="material-symbols-outlined text-white text-xl">grid_view</span>
+              <p className="text-white font-bold text-sm">כל {activeSubGroup}</p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <div
-                onClick={() => setSubCategory('__all__')}
-                className="relative rounded-2xl overflow-hidden cursor-pointer h-44 active:scale-95 transition-transform shadow-sm bg-gradient-to-br from-[#8B7355] to-[#C4A882] flex flex-col items-center justify-center gap-2"
-              >
-                <span className="material-symbols-outlined text-white text-4xl">grid_view</span>
-                <p className="text-white font-bold text-sm">כל {activeCategory}</p>
-              </div>
-              {subCategories.map((sub) => (
+              {activeSubGroupItems.map((sub) => (
                 <div
                   key={sub.name}
                   onClick={() => setSubCategory(sub.name)}
@@ -340,6 +369,57 @@ export default function HomePage() {
                   <div className="absolute bottom-0 left-0 right-0 p-3 text-right">
                     <p className="text-white font-bold text-sm leading-tight">{sub.name}</p>
                     <p className="text-white/70 text-xs mt-0.5">{sub.count} גרסאות לבחירה</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+
+        ) : activeCategory !== 'הכל' && activeSubCategory === '' && subCategories.length > 0 && activeKosherType === '' ? (
+          /* ── Dish-type cards for non-עיקרית categories ── */
+          <>
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm text-gray-400">{displaySubs.length + visibleSubGroups.length} סוגי מנות</span>
+              <h2 className="text-lg font-bold text-gray-800">{activeCategory}</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div
+                onClick={() => setSubCategory('__all__')}
+                className="relative rounded-2xl overflow-hidden cursor-pointer h-44 active:scale-95 transition-transform shadow-sm bg-gradient-to-br from-[#8B7355] to-[#C4A882] flex flex-col items-center justify-center gap-2"
+              >
+                <span className="material-symbols-outlined text-white text-4xl">grid_view</span>
+                <p className="text-white font-bold text-sm">כל {activeCategory}</p>
+              </div>
+              {displaySubs.map((sub) => (
+                <div
+                  key={sub.name}
+                  onClick={() => setSubCategory(sub.name)}
+                  className="relative rounded-2xl overflow-hidden cursor-pointer h-44 active:scale-95 transition-transform shadow-sm"
+                >
+                  <img
+                    src={sub.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'}
+                    alt={sub.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400' }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3 text-right">
+                    <p className="text-white font-bold text-sm leading-tight">{sub.name}</p>
+                    <p className="text-white/70 text-xs mt-0.5">{sub.count} גרסאות לבחירה</p>
+                  </div>
+                </div>
+              ))}
+              {visibleSubGroups.map((group) => (
+                <div
+                  key={group.name}
+                  onClick={() => setSubGroup(group.name, group.subs)}
+                  className="relative rounded-2xl overflow-hidden cursor-pointer h-44 active:scale-95 transition-transform shadow-sm"
+                >
+                  <img src={group.image} alt={group.name} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3 text-right">
+                    <p className="text-white font-bold text-sm leading-tight">{group.name}</p>
+                    <p className="text-white/70 text-xs mt-0.5">{group.desc}</p>
                   </div>
                 </div>
               ))}
@@ -362,13 +442,15 @@ export default function HomePage() {
                     className="flex items-center gap-1 text-sm text-stone-700 font-medium"
                   >
                     <span className="material-symbols-outlined text-base">chevron_right</span>
-                    {activeKosherType || activeCategory}
+                    {activeSubGroup || activeKosherType || activeCategory}
                   </button>
                 )}
                 <h2 className="text-lg font-bold text-gray-800">
                   {activeSubCategory && activeSubCategory !== '__all__'
                     ? activeSubCategory
-                    : activeCategory === 'הכל' ? 'כל המתכונים' : activeKosherType || activeCategory}
+                    : activeCategory === 'הכל' ? 'כל המתכונים'
+                    : activeSubGroup ? `כל ${activeSubGroup}`
+                    : activeKosherType || activeCategory}
                 </h2>
               </div>
             </div>

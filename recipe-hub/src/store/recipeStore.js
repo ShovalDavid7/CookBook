@@ -12,19 +12,21 @@ export const useRecipeStore = create((set, get) => ({
   activeKosherType: '',
   activeGroup: '',
   activeGroupSubs: [],
+  activeSubGroup: '',
+  activeSubGroupSubs: [],
   activeSource: '',
   searchQuery: '',
   subCategories: [],
 
   setCategory: (category) => {
-    set({ activeCategory: category, activeSubCategory: '', activeKosherType: '', activeGroup: '', activeGroupSubs: [] })
+    set({ activeCategory: category, activeSubCategory: '', activeKosherType: '', activeGroup: '', activeGroupSubs: [], activeSubGroup: '', activeSubGroupSubs: [] })
     get().fetchRecipes()
     if (category !== 'הכל') get().fetchSubCategories(category, '')
     else set({ subCategories: [] })
   },
 
   setKosherType: (type) => {
-    set({ activeKosherType: type, activeSubCategory: '', activeGroup: '', activeGroupSubs: [] })
+    set({ activeKosherType: type, activeSubCategory: '', activeGroup: '', activeGroupSubs: [], activeSubGroup: '', activeSubGroupSubs: [] })
     get().fetchSubCategories(get().activeCategory, type)
     get().fetchRecipes()
   },
@@ -34,13 +36,17 @@ export const useRecipeStore = create((set, get) => ({
     if (groupName) get().fetchRecipes()
   },
 
+  setSubGroup: (name, subs) => {
+    set({ activeSubGroup: name, activeSubGroupSubs: subs, activeSubCategory: '' })
+  },
+
   setSubCategory: (sub) => {
     set({ activeSubCategory: sub })
     get().fetchRecipes()
   },
 
-  restoreNav: (cat, k, g, gs, sub) => {
-    set({ activeCategory: cat, activeKosherType: k, activeGroup: g || '', activeGroupSubs: gs || [], activeSubCategory: sub })
+  restoreNav: (cat, k, g, gs, sub, sg, sgs) => {
+    set({ activeCategory: cat, activeKosherType: k, activeGroup: g || '', activeGroupSubs: gs || [], activeSubCategory: sub, activeSubGroup: sg || '', activeSubGroupSubs: sgs || [] })
     get().fetchRecipes()
     if (cat !== 'הכל') get().fetchSubCategories(cat, k)
     else set({ subCategories: [] })
@@ -69,12 +75,14 @@ export const useRecipeStore = create((set, get) => ({
 
   fetchRecipes: async () => {
     set({ isLoading: true, error: null })
-    const { activeCategory, activeSubCategory, activeKosherType, activeGroup, activeGroupSubs, activeSource, searchQuery } = get()
+    const { activeCategory, activeSubCategory, activeKosherType, activeGroup, activeGroupSubs, activeSubGroup, activeSubGroupSubs, activeSource, searchQuery } = get()
     const params = {}
     if (activeCategory !== 'הכל') params.category = activeCategory
     if (activeKosherType) params.kosher_type = activeKosherType
     if (activeSubCategory && activeSubCategory !== '__all__') {
       params.sub_category = activeSubCategory
+    } else if (activeSubCategory === '__all__' && activeSubGroup && activeSubGroupSubs.length) {
+      params.sub_categories = activeSubGroupSubs.join(',')
     } else if (activeGroup && activeGroupSubs.length && activeSubCategory !== '__all__') {
       params.sub_categories = activeGroupSubs.join(',')
     }
