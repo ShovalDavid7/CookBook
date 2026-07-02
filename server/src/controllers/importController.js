@@ -1,5 +1,6 @@
 const BLOG_SOURCES = [
   { match: '10dakot.co.il', name: '10 דקות' },
+  { match: 'nikib.co.il', name: 'ניקי במטבח' },
   { match: 'mako.co.il', name: 'מאקו' },
   { match: 'hashefhalavan', name: 'השף הלבן' },
   { match: 'chenbamitbach', name: 'חן במטבח' },

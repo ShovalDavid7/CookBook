@@ -14,7 +14,7 @@ const SUB_CATEGORY_IMAGE_OVERRIDES = {
   'אסאדו':   'https://heninthekitchen.com/wp-content/uploads/2024/04/DSC000581-3small.jpg',
   'טונה':    'https://d3o5sihylz93ps.cloudfront.net/wp-content/uploads/2026/05/03110334/WhatsApp-Image-2026-04-30-at-16.58.27-1-355x236.jpeg',
 }
-const BLOGS = ['10 דקות', 'מאקו', 'חן במטבח']
+const BLOGS = ['10 דקות', 'ניקי במטבח', 'חן במטבח']
 
 const SUB_GROUPS = {
   'קינוחים': [
