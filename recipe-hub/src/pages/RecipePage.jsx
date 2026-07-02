@@ -191,7 +191,7 @@ export default function RecipePage() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-gray-400">
         <span className="material-symbols-outlined text-6xl">error</span>
         <p className="text-lg">מתכון לא נמצא</p>
-        <button onClick={() => navigate('/')} className="px-6 py-2 bg-stone-900 text-white rounded-full font-medium">
+        <button onClick={() => navigate(-1)} className="px-6 py-2 bg-stone-900 text-white rounded-full font-medium">
           חזרה לדף הבית
         </button>
       </div>
@@ -215,7 +215,7 @@ export default function RecipePage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate(-1)}
             className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow"
           >
             <span className="material-symbols-outlined">chevron_right</span>
@@ -328,7 +328,7 @@ export default function RecipePage() {
             onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800' }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          <button onClick={() => navigate('/')} className="absolute top-5 left-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md">
+          <button onClick={() => navigate(-1)} className="absolute top-5 left-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md">
             <span className="material-symbols-outlined">chevron_left</span>
           </button>
           <div className="absolute bottom-6 left-6 right-6" dir="rtl">
