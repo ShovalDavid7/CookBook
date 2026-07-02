@@ -68,7 +68,18 @@ export async function getRecipes(req, res) {
     query = query.eq('kosher_type', kosher_type)
   }
   if (search) {
-    query = query.ilike('title', `%${search}%`)
+    const { data: ingMatches } = await supabase
+      .from('ingredients')
+      .select('recipe_id')
+      .ilike('name', `%${search}%`)
+
+    const ingIds = [...new Set((ingMatches || []).map(i => i.recipe_id))]
+
+    if (ingIds.length > 0) {
+      query = query.or(`title.ilike.%${search}%,id.in.(${ingIds.join(',')})`)
+    } else {
+      query = query.ilike('title', `%${search}%`)
+    }
   }
   if (source) {
     query = query.eq('source', source)
