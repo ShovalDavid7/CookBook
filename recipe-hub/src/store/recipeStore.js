@@ -19,29 +19,29 @@ export const useRecipeStore = create((set, get) => ({
   subCategories: [],
 
   setCategory: (category) => {
-    set({ activeCategory: category, activeSubCategory: '', activeKosherType: '', activeGroup: '', activeGroupSubs: [], activeSubGroup: '', activeSubGroupSubs: [] })
+    set({ activeCategory: category, activeSubCategory: '', activeKosherType: '', activeGroup: '', activeGroupSubs: [], activeSubGroup: '', activeSubGroupSubs: [], searchQuery: '' })
     get().fetchRecipes()
     if (category !== 'הכל') get().fetchSubCategories(category, '')
     else set({ subCategories: [] })
   },
 
   setKosherType: (type) => {
-    set({ activeKosherType: type, activeSubCategory: '', activeGroup: '', activeGroupSubs: [], activeSubGroup: '', activeSubGroupSubs: [] })
+    set({ activeKosherType: type, activeSubCategory: '', activeGroup: '', activeGroupSubs: [], activeSubGroup: '', activeSubGroupSubs: [], searchQuery: '' })
     get().fetchSubCategories(get().activeCategory, type)
     get().fetchRecipes()
   },
 
   setGroup: (groupName, groupSubs) => {
-    set({ activeGroup: groupName, activeGroupSubs: groupSubs, activeSubCategory: '' })
+    set({ activeGroup: groupName, activeGroupSubs: groupSubs, activeSubCategory: '', searchQuery: '' })
     if (groupName) get().fetchRecipes()
   },
 
   setSubGroup: (name, subs) => {
-    set({ activeSubGroup: name, activeSubGroupSubs: subs, activeSubCategory: '' })
+    set({ activeSubGroup: name, activeSubGroupSubs: subs, activeSubCategory: '', searchQuery: '' })
   },
 
   setSubCategory: (sub) => {
-    set({ activeSubCategory: sub })
+    set({ activeSubCategory: sub, searchQuery: '' })
     get().fetchRecipes()
   },
 
